@@ -30,8 +30,8 @@ class RepositorioDeFatosDeGatos extends Repositorio<FatosDeGatoModel> {
       if (resposta.statusCode == 200) {
         return FatosDeGatoModel.fromJson(resposta.data);
       }
-    } on DioError catch (e) {
-      return FatosDeGatoModel(fact: e.message, length: e.message.length);
+    } on DioException catch (e) {
+      return FatosDeGatoModel(fact: e.message, length: e.message?.length);
     }
     String fato = 'Fato avulso';
     return FatosDeGatoModel(fact: fato, length: fato.length);
@@ -45,15 +45,13 @@ class RepositorioDeFatosDeGatos extends Repositorio<FatosDeGatoModel> {
       if (resposta.statusCode == 200) {
         return ListaDeFatosModel.fromJson(resposta.data).data!;
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       return ListaDeFatosModel(
-        data: [FatosDeGatoModel(fact: e.message, length: e.message.length)],
+        data: [FatosDeGatoModel(fact: e.message, length: e.message?.length)],
       ).data!;
     }
     String fato = 'Fato avulso';
-    return ListaDeFatosModel(
-      data: [FatosDeGatoModel(fact: fato, length: fato.length)],
-    ).data!;
+    return  [FatosDeGatoModel(fact: fato, length: fato.length)];
   }
 
   @override

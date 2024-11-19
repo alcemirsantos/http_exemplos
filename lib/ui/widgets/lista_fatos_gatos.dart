@@ -15,12 +15,12 @@ class ListaFatosDeGatos extends StatelessWidget {
       future: r.getAll(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          var users = snapshot.data as List<FatosDeGatoModel>;
+          var facts = snapshot.data as List<FatosDeGatoModel>;
 
           return ListView.builder(
-            itemCount: users.length,
+            itemCount: facts.length,
             itemBuilder: (_, index) {
-              FatosDeGatoModel fato = users[index];
+              FatosDeGatoModel fato = facts[index];
               return ListTile(
                 leading: const Icon(Icons.adb),
                 title: Text(fato.fact ?? 'Sem fato algum'),
