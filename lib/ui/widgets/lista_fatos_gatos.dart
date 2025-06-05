@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http_exemplos/core/resultado.dart';
 import 'package:http_exemplos/models/lista_fatos_gatos_model.dart';
 import 'package:http_exemplos/repositories/repositorio_fatos_gatos.dart';
 import 'package:provider/provider.dart';
@@ -8,14 +9,15 @@ class ListaFatosDeGatos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RepositorioDeFatosDeGatos r =
+    RepositorioDeFatosDeGatos repositorio =
         Provider.of<RepositorioDeFatosDeGatos>(context);
 
     return FutureBuilder(
-      future: r.getAll(),
+      future: repositorio.getAll(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          var facts = snapshot.data as List<FatosDeGatoModel>;
+          Ok r = snapshot.data as Ok<List<FatosDeGatoModel>>;
+          var facts = r.value;
 
           return ListView.builder(
             itemCount: facts.length,
@@ -27,6 +29,10 @@ class ListaFatosDeGatos extends StatelessWidget {
                 subtitle: Text('${fato.length ?? 0}'),
               );
             },
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('ocorreu um erro: ${snapshot.error.toString()}'),
           );
         }
         return const Center(

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:http_exemplos/core/resultado.dart';
 import '../core/parametros.dart';
 
 abstract class Repositorio<T> {
@@ -9,17 +10,17 @@ abstract class Repositorio<T> {
   }
 
   /// recupera uma instância de [T] baseado nos parâmetros.
-  Future<T> get(Parametros p);
+  Future<Resultado<T>> get(Parametros p);
 
   /// recupera todas as instâncias de [T].
-  Future<List<T>> getAll();
+  Future<Resultado<List<T>>> getAll();
 
   /// adiciona uma instância de [T].
-  Future<T> adiciona(Parametros p);
+  Future<Resultado<T>> adiciona(Parametros p);
 
   /// atualiza uma instância de [T].
-  Future<T> atualiza(Parametros p);
+  Future<Resultado<T>> atualiza(Parametros p);
 
   /// remove uma instância de [T].
-  Future<bool> remove(Parametros p);
+  Future<Resultado<bool>> remove(Parametros p);
 }

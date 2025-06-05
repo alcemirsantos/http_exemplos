@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http_exemplos/core/resultado.dart';
 import 'package:http_exemplos/models/usuario_github_model.dart';
 import 'package:http_exemplos/repositories/repositorio_usuarios_github.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,7 @@ class ListaDeUsuariosGithub extends StatelessWidget {
       future: r.getAll(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          var users = snapshot.data as List<GithubUserModel>;
+          var users = (snapshot.data as Ok<List<GithubUserModel>>).value;
 
           return ListView.builder(
             itemCount: users.length,

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:http_exemplos/core/parametros.dart';
+import 'package:http_exemplos/core/resultado.dart';
 import 'package:http_exemplos/models/usuario_github_model.dart';
 
 import 'repositorio.dart';
@@ -34,47 +35,62 @@ class RepositorioDeUsuariosGithub extends Repositorio<GithubUserModel> {
         );
 
   @override
-  Future<GithubUserModel> get(Parametros p) async {
+  Future<Resultado<GithubUserModel>> get(Parametros p) async {
     Response resposta;
     try {
       resposta = await dio.get(endpoint + p.dados['username']);
       if (resposta.statusCode == 200) {
-        return GithubUserModel.fromJson(resposta.data);
+        return Resultado.ok(GithubUserModel.fromJson(resposta.data));
       }
     } on DioError catch (e) {
-      return GithubUserModel(
-        name: e.message,
+      return Resultado.error(
+        Exception(
+          GithubUserModel(
+            name: e.message,
+          ),
+        ),
       );
     }
-    return GithubUserModel(
-      name: 'Fulano de Tal',
-      blog: 'www.vaiquecola.com.br',
+
+    return Resultado.error(
+      Exception(
+        GithubUserModel(
+          name: 'Fulano de Tal',
+          blog: 'www.vaiquecola.com.br',
+        ),
+      ),
     );
   }
 
   @override
-  Future<List<GithubUserModel>> getAll() async {
+  Future<Resultado<List<GithubUserModel>>> getAll() async {
     List<GithubUserModel> users = [];
     for (String username in usernames) {
-      users.add(await get(Parametros(dados: {'username': username})));
+      Resultado r = await get(Parametros(dados: {'username': username}));
+      switch (r) {
+        case Ok():
+          users.add(r.value);
+          break;
+        default:
+      }
     }
-    return users;
+    return Resultado.ok(users);
   }
 
   @override
-  Future<GithubUserModel> adiciona(Parametros p) {
+  Future<Resultado<GithubUserModel>> adiciona(Parametros p) {
     // TODO: implement adiciona
     throw UnimplementedError();
   }
 
   @override
-  Future<GithubUserModel> atualiza(Parametros p) {
+  Future<Resultado<GithubUserModel>> atualiza(Parametros p) {
     // TODO: implement atualiza
     throw UnimplementedError();
   }
 
   @override
-  Future<bool> remove(Parametros p) {
+  Future<Resultado<bool>> remove(Parametros p) {
     // TODO: implement remove
     throw UnimplementedError();
   }

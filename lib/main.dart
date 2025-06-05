@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
+      // injeção de dependências
       providers: [
         Provider(create: (_) => RepositorioDeFatosDeGatos()),
         Provider(create: (_) => RepositorioDeUsuariosGithub()),
