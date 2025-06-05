@@ -1,12 +1,15 @@
 import 'package:dio/dio.dart';
-import 'package:http_exemplos/core/parametros.dart';
-import 'package:http_exemplos/core/resultado.dart';
-import 'package:http_exemplos/models/usuario_github_model.dart';
 
+import '../../core/parametros.dart';
+import '../../core/resultado.dart';
+import '../modelos/usuario_github_model.dart';
+import '../servicos/sevicos.dart';
 import 'repositorio.dart';
 
 class RepositorioDeUsuariosGithub extends Repositorio<GithubUserModel> {
-  final String endpoint = 'users/';
+  final ServicoDeUsuariosGithub servico;
+  RepositorioDeUsuariosGithub(this.servico);
+
   final List<String> usernames = [
     'Alexandre16347',
     'AndreLuis6',
@@ -29,16 +32,11 @@ class RepositorioDeUsuariosGithub extends Repositorio<GithubUserModel> {
     'TiagoAbilio',
   ];
 
-  RepositorioDeUsuariosGithub()
-      : super(
-          baseUrl: 'https://api.github.com/',
-        );
-
   @override
   Future<Resultado<GithubUserModel>> get(Parametros p) async {
     Response resposta;
     try {
-      resposta = await dio.get(endpoint + p.dados['username']);
+      resposta = await servico.recuperaUsuarioDoGithub(p.dados['username']);
       if (resposta.statusCode == 200) {
         return Resultado.ok(GithubUserModel.fromJson(resposta.data));
       }

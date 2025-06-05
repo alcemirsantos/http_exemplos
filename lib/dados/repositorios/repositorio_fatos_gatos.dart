@@ -1,21 +1,20 @@
 import 'package:dio/dio.dart';
-import 'package:http_exemplos/core/parametros.dart';
-import 'package:http_exemplos/core/resultado.dart';
-import 'package:http_exemplos/models/lista_fatos_gatos_model.dart';
-
+import '../../core/parametros.dart';
+import '../../core/resultado.dart';
+import '../modelos/fatos_gato_model.dart';
+import '../servicos/sevicos.dart';
 import 'repositorio.dart';
 
 class RepositorioDeFatosDeGatos extends Repositorio<FatosDeGatoModel> {
-  final String endpointFatoAleatorio = 'fact/';
-  final String endpointListDeFatos = 'facts/';
+  final ServicoDeFatosDeGatos servico;
 
-  RepositorioDeFatosDeGatos() : super(baseUrl: 'https://catfact.ninja/');
+  RepositorioDeFatosDeGatos(this.servico);
 
   @override
   Future<Resultado<FatosDeGatoModel>> get(Parametros p) async {
     Response resposta;
     try {
-      resposta = await dio.get(endpointFatoAleatorio);
+      resposta = await servico.recuperaFatoDeGatoAleatorio();
       if (resposta.statusCode == 200) {
         return Resultado.ok(FatosDeGatoModel.fromJson(resposta.data));
       }
@@ -39,7 +38,7 @@ class RepositorioDeFatosDeGatos extends Repositorio<FatosDeGatoModel> {
   Future<Resultado<List<FatosDeGatoModel>>> getAll() async {
     Response resposta;
     try {
-      resposta = await dio.get(endpointListDeFatos);
+      resposta = await servico.recuperaListaDeFatosDeGato();
       if (resposta.statusCode == 200) {
         return Resultado.ok(ListaDeFatosModel.fromJson(resposta.data).data!);
       }

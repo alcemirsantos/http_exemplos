@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:http_exemplos/core/resultado.dart';
-import 'package:http_exemplos/models/lista_fatos_gatos_model.dart';
-import 'package:http_exemplos/repositories/repositorio_fatos_gatos.dart';
-import 'package:provider/provider.dart';
+
+import '../../../core/resultado.dart';
+import '../../../dados/modelos/fatos_gato_model.dart';
+import '../view_models/lista_fatos_gato_viewmodel.dart';
 
 class ListaFatosDeGatos extends StatelessWidget {
-  const ListaFatosDeGatos({Key? key}) : super(key: key);
+  final ListaDeFatosDeGatoViewModel viewModel;
+
+  const ListaFatosDeGatos({
+    Key? key,
+    required this.viewModel,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    RepositorioDeFatosDeGatos repositorio =
-        Provider.of<RepositorioDeFatosDeGatos>(context);
-
     return FutureBuilder(
-      future: repositorio.getAll(),
+      future: viewModel.fatosDeGato,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           Ok r = snapshot.data as Ok<List<FatosDeGatoModel>>;

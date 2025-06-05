@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import 'repositories/repositorio_fatos_gatos.dart';
-import 'repositories/repositorio_usuarios_github.dart';
-import 'ui/my_home_page.dart';
+import 'dados/repositorios/repositorio_fatos_gatos.dart';
+import 'dados/repositorios/repositorio_usuarios_github.dart';
+import 'dados/servicos/sevicos.dart';
+import 'iu/pagina_inicial/widgets/my_home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,8 +20,10 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       // injeção de dependências
       providers: [
-        Provider(create: (_) => RepositorioDeFatosDeGatos()),
-        Provider(create: (_) => RepositorioDeUsuariosGithub()),
+        Provider(create: (_) => ServicoDeFatosDeGatos()),
+        Provider(create: (_) => ServicoDeUsuariosGithub()),
+        Provider(create: (_) => RepositorioDeFatosDeGatos(context.read())),
+        Provider(create: (_) => RepositorioDeUsuariosGithub(context.read())),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

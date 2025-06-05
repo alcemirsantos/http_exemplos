@@ -1,14 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:http_exemplos/core/resultado.dart';
-import '../core/parametros.dart';
+
+import '../../core/parametros.dart';
 
 abstract class Repositorio<T> {
-  Dio dio = Dio();
-
-  Repositorio({required String baseUrl}) {
-    dio.options.baseUrl = baseUrl;
-  }
-
   /// recupera uma instância de [T] baseado nos parâmetros.
   Future<Resultado<T>> get(Parametros p);
 

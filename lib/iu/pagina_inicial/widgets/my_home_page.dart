@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:http_exemplos/models/usuario_github_model.dart';
-import 'package:http_exemplos/repositories/repositorio.dart';
-import 'package:http_exemplos/repositories/repositorio_usuarios_github.dart';
-import 'package:http_exemplos/ui/widgets/lista_fatos_gatos.dart';
 import 'package:provider/provider.dart';
 
-import 'widgets/lista_usuarios_github.dart';
+import '../../fatos_de_gato/view_models/lista_fatos_gato_viewmodel.dart';
+import '../../fatos_de_gato/widgets/lista_fatos_gatos.dart';
+import '../../usuarios_github/widgets/lista_usuarios_github.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -27,20 +25,24 @@ class _MyHomePageState extends State<MyHomePage> {
           bottom: const TabBar(
             tabs: [
               Tab(
-                icon: Icon(Icons.group),
-                text: 'Usuários GitHub',
-              ),
-              Tab(
                 icon: Icon(Icons.adb_outlined),
                 text: 'Fatos de Gatos',
+              ),
+              Tab(
+                icon: Icon(Icons.group),
+                text: 'Usuários GitHub',
               ),
             ],
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
-            ListaDeUsuariosGithub(),
-            ListaFatosDeGatos(),
+            ListaFatosDeGatos(
+              viewModel: ListaDeFatosDeGatoViewModel(
+                repositorio: context.read(),
+              ),
+            ),
+            const ListaDeUsuariosGithub(),
           ],
         ),
       ),

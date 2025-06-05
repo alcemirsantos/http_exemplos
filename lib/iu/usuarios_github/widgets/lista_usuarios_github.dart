@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:http_exemplos/core/resultado.dart';
-import 'package:http_exemplos/models/usuario_github_model.dart';
-import 'package:http_exemplos/repositories/repositorio_usuarios_github.dart';
 import 'package:provider/provider.dart';
+
+import '../../../core/resultado.dart';
+import '../../../dados/modelos/usuario_github_model.dart';
+import '../../../dados/repositorios/repositorio_usuarios_github.dart';
 
 class ListaDeUsuariosGithub extends StatelessWidget {
   const ListaDeUsuariosGithub({Key? key}) : super(key: key);
